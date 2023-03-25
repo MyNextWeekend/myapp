@@ -1,0 +1,8 @@
+
+# CLI tool, only in development environment.
+# https://goframe.org/pages/viewpage.action?pageId=3673173
+gfcli:
+  gen:
+    dao:
+      link: "mysql:myapp:asdfg12345@tcp(106.55.186.222:3306)/myapp"
+      jsonCase: "CamelLower"
