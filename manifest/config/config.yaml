@@ -27,7 +27,7 @@ logger:
 # gToken 配置
 gToken:
   # 缓存模式 1 gCache 2 gRedis
-  CacheMode: 1
+  CacheMode: 2
   # 是否支持多端登录
   MultiLogin: true
   CacheKey: "gfToken:"
