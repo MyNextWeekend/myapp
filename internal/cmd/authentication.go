@@ -15,13 +15,14 @@ import (
 	"strconv"
 )
 
+var gfToken *gtoken.GfToken
+
 /*
 NewGToken 创建gToken对象
 */
 func NewGToken(ctx context.Context) *gtoken.GfToken {
 
-	gfToken := &gtoken.GfToken{
-		//Timeout:         10 * 1000,
+	gfToken = &gtoken.GfToken{
 		CacheMode:        utility.CfgGet(ctx, "gToken.CacheMode").Int8(),
 		CacheKey:         utility.CfgGet(ctx, "gToken.CacheKey").String(),
 		Timeout:          utility.CfgGet(ctx, "gToken.Timeout").Int(),
@@ -74,7 +75,7 @@ func loginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 }
 
 /*
-根据登录成功的token，组装其他返回信息
+根据登录成功的token，组装用户返回信息
 */
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	if !respData.Success() {

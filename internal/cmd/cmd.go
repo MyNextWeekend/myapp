@@ -30,6 +30,7 @@ var (
 				}
 				group.Bind(
 					controller.User,
+					controller.Test,
 				)
 			})
 
