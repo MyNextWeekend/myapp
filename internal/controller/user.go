@@ -32,7 +32,7 @@ func (c *cUser) Register(ctx context.Context, req *v1.UserRegisterReq) (res *v1.
 	return
 }
 
-func (c cUser) Update(ctx context.Context, req *v1.UserUpdateReq) (res *v1.UserUpdateRes, err error) {
+func (c *cUser) Update(ctx context.Context, req *v1.UserUpdateReq) (res *v1.UserUpdateRes, err error) {
 	err = service.User().Update(ctx, model.UserUpdateInput{
 		UserName: req.UserName,
 		NickName: req.NickName,
@@ -47,7 +47,7 @@ func (c cUser) Update(ctx context.Context, req *v1.UserUpdateReq) (res *v1.UserU
 	return res, err
 }
 
-func (c cUser) Delete(ctx context.Context, req *v1.UserDeleteReq) (res *v1.UserDeleteRes, err error) {
+func (c *cUser) Delete(ctx context.Context, req *v1.UserDeleteReq) (res *v1.UserDeleteRes, err error) {
 	err = service.User().Delete(ctx)
 	res = &v1.UserDeleteRes{}
 	if err != nil {
