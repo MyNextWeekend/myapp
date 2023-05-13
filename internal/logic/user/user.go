@@ -4,10 +4,12 @@ import (
 	"context"
 	"errors"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 	"myapp/internal/consts"
 	"myapp/internal/dao"
 	"myapp/internal/model"
 	"myapp/internal/model/do"
+	"myapp/internal/model/entity"
 	"myapp/internal/service"
 )
 
@@ -38,7 +40,7 @@ func (s *sUser) Register(ctx context.Context, in model.UserRegisterInput) error 
 	return err
 }
 
-func (s sUser) Update(ctx context.Context, in model.UserUpdateInput) error {
+func (s *sUser) Update(ctx context.Context, in model.UserUpdateInput) error {
 	count, err := dao.UserInfo.Ctx(ctx).Count(do.UserInfo{
 		UserName: in.UserName,
 	})
@@ -61,10 +63,14 @@ func (s sUser) Update(ctx context.Context, in model.UserUpdateInput) error {
 		return err
 	}
 	g.Log().Infof(ctx, "修改用户【%v】信息为【%v】成功", ctx.Value(consts.CtxUserName), in.UserName)
+	err = s.UpdateRedisInfo(ctx)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
-func (s sUser) Delete(ctx context.Context) error {
+func (s *sUser) Delete(ctx context.Context) error {
 	count, err := dao.UserInfo.Ctx(ctx).Count(do.UserInfo{
 		Id:       ctx.Value(consts.CtxAdminId),
 		UserName: ctx.Value(consts.CtxUserName),
@@ -86,5 +92,37 @@ func (s sUser) Delete(ctx context.Context) error {
 		return err
 	}
 	g.Log().Infof(ctx, "【%v】账号删除成功", ctx.Value(consts.CtxUserName))
+	return nil
+}
+
+func (s *sUser) UpdateRedisInfo(ctx context.Context) error {
+	//获取用户token
+	sId := ctx.Value(consts.CtxAdminId)
+	tokenKey := "gfToken:" + gconv.String(sId)
+	redisData, err := g.Redis().Get(ctx, tokenKey)
+	if err != nil {
+		g.Log().Error(ctx, err)
+		return err
+	}
+
+	//修改token
+	anyMap := redisData.Map()
+	g.Log().Info(ctx, "获取token的值：", anyMap)
+	//获取数据库最新的数据
+	var user *entity.UserInfo
+	err = dao.UserInfo.Ctx(ctx).Where(do.UserInfo{Id: sId}).Scan(&user)
+	if err != nil {
+		g.Log().Error(ctx, err)
+		return err
+	}
+	anyMap["data"] = user
+	g.Log().Info(ctx, "修改之后token的值：", anyMap)
+
+	//将修改之后的token覆盖写入redis
+	_, err = g.Redis().Set(ctx, tokenKey, anyMap)
+	if err != nil {
+		g.Log().Error(ctx, err)
+		return err
+	}
 	return nil
 }
