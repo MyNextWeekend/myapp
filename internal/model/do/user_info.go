@@ -11,12 +11,12 @@ import (
 
 // UserInfo is the golang structure of table user_info for DAO operations like Where/Data.
 type UserInfo struct {
-	g.Meta    `orm:"table:user_info, do:true"`
-	Id        interface{} //
-	UserName  interface{} //
-	NickName  interface{} //
-	Password  interface{} //
-	Role      interface{} //
-	CreatedAt *gtime.Time //
-	UpdatedAt *gtime.Time //
+	g.Meta   `orm:"table:user_info, do:true"`
+	Id       interface{} // User ID
+	UserName interface{} // 账号
+	NickName interface{} // 密码
+	Password interface{} // 昵称
+	Role     interface{} //
+	CreateAt *gtime.Time //
+	UpdateAt *gtime.Time //
 }

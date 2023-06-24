@@ -10,11 +10,11 @@ import (
 
 // UserInfo is the golang structure for table user_info.
 type UserInfo struct {
-	Id        int64       `json:"id"        ` //
-	UserName  string      `json:"userName"  ` //
-	NickName  string      `json:"nickName"  ` //
-	Password  string      `json:"password"  ` //
-	Role      string      `json:"role"      ` //
-	CreatedAt *gtime.Time `json:"createdAt" ` //
-	UpdatedAt *gtime.Time `json:"updatedAt" ` //
+	Id       uint        `json:"id"       ` // User ID
+	UserName string      `json:"userName" ` // 账号
+	NickName string      `json:"nickName" ` // 密码
+	Password string      `json:"password" ` // 昵称
+	Role     string      `json:"role"     ` //
+	CreateAt *gtime.Time `json:"createAt" ` //
+	UpdateAt *gtime.Time `json:"updateAt" ` //
 }

@@ -4,5 +4,5 @@
 gfcli:
   gen:
     dao:
-      link: "mysql:myapp:asdfg12345@tcp(106.55.186.222:3306)/myapp"
+      link: "mysql:study_golang:Djc5FcebBWCjpcwJ@tcp(106.55.186.222:3306)/study_golang"
       jsonCase: "CamelLower"

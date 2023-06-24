@@ -20,24 +20,24 @@ type UserInfoDao struct {
 
 // UserInfoColumns defines and stores column names for table user_info.
 type UserInfoColumns struct {
-	Id        string //
-	UserName  string //
-	NickName  string //
-	Password  string //
-	Role      string //
-	CreatedAt string //
-	UpdatedAt string //
+	Id       string // User ID
+	UserName string // 账号
+	NickName string // 密码
+	Password string // 昵称
+	Role     string //
+	CreateAt string //
+	UpdateAt string //
 }
 
 // userInfoColumns holds the columns for table user_info.
 var userInfoColumns = UserInfoColumns{
-	Id:        "id",
-	UserName:  "user_name",
-	NickName:  "nick_name",
-	Password:  "password",
-	Role:      "role",
-	CreatedAt: "created_at",
-	UpdatedAt: "updated_at",
+	Id:       "id",
+	UserName: "user_name",
+	NickName: "nick_name",
+	Password: "password",
+	Role:     "role",
+	CreateAt: "create_at",
+	UpdateAt: "update_at",
 }
 
 // NewUserInfoDao creates and returns a new DAO object for table data access.

@@ -13,7 +13,7 @@ database:
     level: "all"
     stdout: true
   default:
-    link: "mysql:myapp:asdfg12345@tcp(106.55.186.222:3306)/myapp"
+    link: "mysql:study_golang:Djc5FcebBWCjpcwJ@tcp(106.55.186.222:3306)/study_golang"
     debug: true
 
 # 日志配置
@@ -43,7 +43,7 @@ redis:
   default:
     address: 106.55.186.222:6379
     db: 3
-    pass: "remember"
+    pass: "asdfgqwet123df12345"
     idleTimeout: "60s" #连接最大空闲时间，使用时间字符串例如30s/1m/1d
     maxConnLifetime: "90s" #连接最长存活时间，使用时间字符串例如30s/1m/1d
     waitTimeout: "60s" #等待连接池连接的超时时间，使用时间字符串例如30s/1m/1d

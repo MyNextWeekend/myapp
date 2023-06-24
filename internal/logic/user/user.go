@@ -41,9 +41,11 @@ func (s *sUser) Register(ctx context.Context, in model.UserRegisterInput) error 
 }
 
 func (s *sUser) Update(ctx context.Context, in model.UserUpdateInput) error {
-	count, err := dao.UserInfo.Ctx(ctx).Count(do.UserInfo{
-		UserName: in.UserName,
-	})
+	userID := ctx.Value(consts.CtxAdminId)
+	count, err := dao.UserInfo.Ctx(ctx).
+		WhereNot(dao.UserInfo.Columns().Id, userID).
+		Where(dao.UserInfo.Columns().UserName, in.UserName).
+		Count()
 	if err != nil {
 		g.Log().Error(ctx, err)
 		return err
@@ -52,8 +54,7 @@ func (s *sUser) Update(ctx context.Context, in model.UserUpdateInput) error {
 		g.Log().Infof(ctx, "账号【%v】已存在", in.UserName)
 		return errors.New("账号被占用，请更换")
 	}
-	_, err = dao.UserInfo.Ctx(ctx).Where(do.UserInfo{
-		Id: ctx.Value(consts.CtxAdminId)}).Update(do.UserInfo{
+	_, err = dao.UserInfo.Ctx(ctx).Where(do.UserInfo{Id: userID}).Update(do.UserInfo{
 		UserName: in.UserName,
 		NickName: in.NickName,
 		Password: in.Password,

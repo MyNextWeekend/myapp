@@ -31,9 +31,9 @@ func NewGToken(ctx context.Context) *gtoken.GfToken {
 		EncryptKey:       utility.CfgGet(ctx, "gToken.EncryptKey").Bytes(),
 		AuthFailMsg:      utility.CfgGet(ctx, "gToken.AuthFailMsg").String(),
 		MultiLogin:       utility.CfgGet(ctx, "gToken.MultiLogin").Bool(),
-		LoginPath:        "/login",
-		LogoutPath:       "/logout",
-		AuthExcludePaths: g.SliceStr{"/register"},
+		LoginPath:        "/user/login",
+		LogoutPath:       "/user/logout",
+		AuthExcludePaths: g.SliceStr{"/user/register"},
 		LoginBeforeFunc:  loginBeforeFunc, //登录时调用
 		LoginAfterFunc:   loginAfterFunc,  //登录后调用
 		AuthAfterFunc:    authAfterFunc,   //拦截路由调用
@@ -95,8 +95,8 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	respData.Data = &v1.UserLoginRes{
 		UserName:   user.UserName,
 		Role:       user.Role,
-		CreateTime: user.CreatedAt,
-		UpdateTime: user.UpdatedAt,
+		CreateTime: user.CreateAt,
+		UpdateTime: user.UpdateAt,
 		Token:      respData.GetString("token"),
 		Type:       "Bearer",
 	}
